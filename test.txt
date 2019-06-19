@@ -1,1 +1,1 @@
-Github test.
+Git and Github test.
