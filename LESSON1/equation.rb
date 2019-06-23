@@ -18,7 +18,7 @@ b = gets.chomp.to_f
 puts "Please, enter c: "
 c = gets.chomp.to_f
 
-if a != 0
+unless a == 0
   d = b ** 2 - 4 * a * c
   if d < 0
     puts "Discriminant = #{d}, no roots"
