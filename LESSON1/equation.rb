@@ -31,4 +31,5 @@ unless a == 0
     x2 = ((-b - sqrt_d) / 2 * a).round(2)
     puts "Discriminant = #{d}, roots: x1 = #{x1}, x2 = #{x2}"
   end
+return if a == 0
 end
