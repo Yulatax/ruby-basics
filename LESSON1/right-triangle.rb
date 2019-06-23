@@ -26,7 +26,7 @@ else
   if a == b && b == c
     puts "Equilateral and isosceles triangle, but not right"
   else
-    if (a ** 2 == b ** 2 + c ** 2) || (b ** 2 == a ** 2 + c ** 2) || (c ** 2 == a ** 2 + b ** 2)
+    if (a**2 == b**2 + c**2) || (b**2 == a**2 + c**2) || (c**2 == a**2 + b**2)
       answer = "Right angle triangle"
       if a == b || b == c || a == c
         puts "#{answer} and isosceles"
