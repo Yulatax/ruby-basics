@@ -6,25 +6,18 @@
 =end
 
 puts "Please, enter your name: "
-name = gets.chomp
+name = gets.chomp.capitalize
 
 puts "Please, enter your height: "
-height = gets.chomp
+height = gets.chomp.to_i
 
-if height.length == 0
-  puts "Not enough data, please try again"
+if height == 0
+  puts "Incorrect height, please try again"
 else
-  if height.to_i == 0
-    puts "Incorrect height, please try again"
+  ideal_weight = height.to_i - 110
+  if ideal_weight < 0
+    puts "#{name}, you already have an ideal weight"
   else
-    ideal_weight = height.to_i - 110
-    if ideal_weight < 0
-      puts "#{name.capitalize}, you already have an ideal weight"
-    else
-      puts "#{name.capitalize}, your ideal weight is #{ideal_weight}"
-    end
+    puts "#{name}, your ideal weight is #{ideal_weight}"
   end
 end
-
-
-

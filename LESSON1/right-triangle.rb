@@ -12,51 +12,29 @@
 =end
 
 puts "Please, enter side a: "
-a = gets.chomp.to_i
+a = gets.chomp.to_f
 
 puts "Please, enter side b: "
-b = gets.chomp.to_i
+b = gets.chomp.to_f
 
 puts "Please, enter side c: "
-c = gets.chomp.to_i
+c = gets.chomp.to_f
 
-if a == 0 || b == 0 || c == 0
+if a <= 0 || b <= 0 || c <= 0
   puts "Not enough or incorrect data, please try again"
 else
   if a == b && b == c
     puts "Equilateral and isosceles triangle, but not right"
   else
-    answer = "Right triangle"
-    if a > b && a > c
-      res = b**2 + c**2
-      if res == a**2
-        puts answer
-        if b == c
-          puts "#{answer} and isosceles"
-        end
+    if (a ** 2 == b ** 2 + c ** 2) || (b ** 2 == a ** 2 + c ** 2) || (c ** 2 == a ** 2 + b ** 2)
+      answer = "Right angle triangle"
+      if a == b || b == c || a == c
+        puts "#{answer} and isosceles"
       else
-        puts "It is not a right triangle"
-      end
-    elsif b > a && b > c
-      res = a**2 + c**2
-      if res == b**2
         puts answer
-        if a == c
-          puts "#{answer} and isosceles"
-        end
-      else
-        puts "It is not a right triangle"
       end
     else
-      res = a**2 + b**2
-      if res == c**2
-        puts answer
-        if a == b
-          puts "#{answer} and isosceles"
-        end
-      else
-        puts "It is not a right triangle"
-      end
+      puts "Scalene triangle"
     end
   end
 end

@@ -10,26 +10,25 @@
 =end
 
 puts "Please, enter a: "
-a = gets.chomp.to_i
+a = gets.chomp.to_f
 
 puts "Please, enter b: "
-b = gets.chomp.to_i
+b = gets.chomp.to_f
 
 puts "Please, enter c: "
-c = gets.chomp.to_i
+c = gets.chomp.to_f
 
-unless a == 0
-  d= b**2 - 4*a*c
+if a != 0
+  d = b ** 2 - 4 * a * c
   if d < 0
     puts "Discriminant = #{d}, no roots"
+  elsif d == 0
+    x = (-b / 2 * a).round(2)
+    puts "Discriminant = #{d}, roots: x1 = x2 = #{x}"
   else
-    if d == 0
-      x = -b / 2*a
-      puts "Discriminant = #{d}, roots: x1 = x2 = #{x}"
-    else
-      x1 = (-b + Math.sqrt(d)) / 2*a
-      x2 = (-b - Math.sqrt(d)) / 2*a
-      puts "Discriminant = #{d}, roots: x1 = #{x1}, x2 = #{x2}"
-    end
+    sqrt_d = Math.sqrt(d)
+    x1 = ((-b + sqrt_d) / 2 * a).round(2)
+    x2 = ((-b - sqrt_d) / 2 * a).round(2)
+    puts "Discriminant = #{d}, roots: x1 = #{x1}, x2 = #{x2}"
   end
 end
