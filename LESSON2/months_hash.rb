@@ -17,5 +17,5 @@ months = {
     november: 30,
     december: 31
 }
-months.select{|month, days| days == 30}.each_key{|key| puts key.to_s.capitalize}
+months.select{ |month, days| days == 30 }.each_key{ |key| puts key.to_s.capitalize }
 
