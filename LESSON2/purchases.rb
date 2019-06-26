@@ -8,10 +8,6 @@
   Вычислить и вывести на экран итоговую сумму всех покупок в "корзине".
 =end
 
-item_name = ""
-item_quantity = 0
-item_price = 0
-
 purchases = Hash.new
 total = []
 
