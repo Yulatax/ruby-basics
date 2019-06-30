@@ -1,8 +1,8 @@
 class Station
-  attr_reader :trains, :station_name
+  attr_reader :trains, :name
 
-  def initialize(station_name)
-    @station_name = station_name
+  def initialize(name)
+    @name = name
     @trains = []
   end
 
@@ -11,20 +11,12 @@ class Station
   end
 
   def send_train(train)
-    @trains.delete(train) if @trains.include?(train)
+    @trains.delete(train)
   end
 
-  def trains_by_type
-    trains_hash = {}
-    @trains.each do |train|
-      type = train.train_type.to_sym
-      if trains_hash.keys.include?(type)
-        trains_hash[type] += 1
-      else
-        trains_hash[type] = 1
-      end
-    end
-    puts trains_hash
+  def trains_by_type(type)
+    quantity = @trains.count{|train| train.type == type}
+    puts "On station #{@name} there are #{quantity} trains of type #{type}."
   end
 end
 
@@ -39,30 +31,32 @@ class Route
 
   def add_inner_station(station, index)
     return if @inner_stations.include?(station) ||
-        station.station_name == @start_station.station_name ||
-        station.station_name == @end_station.station_name
+        station == @start_station ||
+        station == @end_station
     @inner_stations.insert(index, station)
   end
 
   def delete_inner_station(station)
-    @inner_stations.delete(station) if @inner_stations.include?(station)
+    @inner_stations.delete(station)
+  end
+
+  def stations_list
+    [start_station, inner_stations, end_station].flatten!.compact
   end
 
   def show_route
-    route = [start_station, inner_stations, end_station].flatten!.compact
-    route.each {|station| puts "#{station.station_name}"}
+    stations_list.each {|station| puts "#{station.name}"}
   end
-
 end
 
 
 class Train
   attr_accessor :speed, :current_station, :route
-  attr_reader :cars_count, :train_type
+  attr_reader :cars_count, :type
 
-  def initialize(train_number, train_type, cars_count)
-    @train_number = train_number
-    @train_type = train_type
+  def initialize(number, type, cars_count)
+    @number = number
+    @type = type
     @cars_count = cars_count
     @speed = 0
   end
@@ -87,31 +81,33 @@ class Train
     @route = route
     @current_station = route.start_station
     @station_index = 0
-    @route_stations = [@route.start_station, @route.inner_stations, @route.end_station].flatten!.compact
+    @current_station.receive_train(self)
+  end
+
+  def next_station
+    return unless @route || current_station == @route.stations_list.last
+    @route.stations_list[@station_index + 1]
+  end
+
+  def previous_station
+    return unless @route || current_station == @route.stations_list.first
+    @route.stations_list[@station_index - 1]
   end
 
   def move_forward
-    return unless @route || @current_station == @route_stations.last
+    return unless @route || @current_station == @route.stations_list.last
     @station_index += 1
-    @current_station = @route_stations[@station_index]
+    @current_station = @route.stations_list[@station_index]
+    @current_station.receive_train(self)
+    previous_station.send_train(self)
   end
 
   def move_back
-    return unless @route || @current_station == @route_stations.first
+    return unless @route || @current_station == @route.stations_list.first
     @station_index -= 1
-    @current_station = @route_stations[@station_index]
-  end
-
-  def stations_around
-    return unless @route
-    index = @station_index - 1
-    if index < 0 || index == @route_stations.size - 1
-      index = 0
-      closest_stations = @route_stations.slice(index, 2)
-    else
-      closest_stations = @route_stations.slice(index, 3)
-    end
-    closest_stations.each {|station| puts station.station_name}
+    @current_station = @route.stations_list[@station_index]
+    @current_station.receive_train(self)
+    next_station.send_train(self)
   end
 end
 
@@ -146,23 +142,27 @@ puts train111c.cars_count
 train111c.remove_car
 puts train111c.cars_count
 train111c.set_route(route_kja_mow)
-p train111c.route
-p train111c.current_station
-train111c.stations_around
+train111c.route.show_route
+train111c.current_station.trains_by_type('cargo')
+p train111c.next_station.name
 train111c.move_forward
 p train111c.current_station
-train111c.stations_around
-train111c.move_forward
-train111c.move_forward
-train111c.move_forward
-p train111c.current_station
-train111c.move_back
-p train111c.current_station
+p train111c.next_station
 
-station_nvb.receive_train(train111c)
+train111c.move_forward
+train111c.move_forward
+train111c.move_forward
+p train111c.current_station.name
+train111c.current_station.trains_by_type('cargo')
+train111c.move_back
+p train111c.current_station.name
+train111c.current_station.trains_by_type('cargo')
+train111c.next_station.trains_by_type('cargo')
+
 station_nvb.receive_train(train222c)
 station_nvb.receive_train(train333p)
 station_nvb.receive_train(train444p)
-station_nvb.trains_by_type
+station_nvb.trains_by_type('cargo')
 station_nvb.send_train(train222c)
-station_nvb.trains_by_type
+station_nvb.trains_by_type('pass')
+
