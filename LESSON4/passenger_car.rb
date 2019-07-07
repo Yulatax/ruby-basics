@@ -3,13 +3,15 @@ require_relative 'train_car'
 class PassengerCar < TrainCar
 
   def initialize(number)
-    @type = PASS_CAR_TYPE
+    @type = pass_car_type
     super(number, @type)
   end
 
   private
 
-  PASS_CAR_TYPE = "pass"
+  def pass_car_type
+    'pass'
+  end
 
 end
 
