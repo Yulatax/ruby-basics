@@ -22,7 +22,7 @@ class Train
   class << self
 
     def find(number)
-      @@all_trains.fetch(number, nil)
+      @@all_trains[number]
     end
   end
 
