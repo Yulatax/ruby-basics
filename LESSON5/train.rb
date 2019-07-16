@@ -1,12 +1,11 @@
 require_relative 'manufacturer_module'
-require_relative 'instance_counter_module'
+require_relative 'instance_counter'
 
 class Train
   include Manufacturer
   include InstanceCounter
 
-  @@all_trains = []
-  @counter = 0
+  @@all_trains = {}
 
   attr_accessor :current_station, :route, :speed
   attr_reader :type, :cars, :number
@@ -16,14 +15,14 @@ class Train
     @type = type
     @speed = 0
     @cars = []
-    @@all_trains << self
+    @@all_trains[@number] = self
     register_instance
   end
 
   class << self
 
     def find(number)
-      @@all_trains.find{ |train| train.number == number }
+      @@all_trains.fetch(number, nil)
     end
   end
 
@@ -110,6 +109,7 @@ class Train
   end
 
 end
+
 
 
 

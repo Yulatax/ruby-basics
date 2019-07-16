@@ -1,12 +1,10 @@
-require_relative 'instance_counter_module'
+require_relative 'instance_counter'
 
 class Route
 
   include InstanceCounter
 
   attr_reader :start_station, :end_station, :inner_stations, :number
-
-  @counter = 0
 
   def initialize(number, start_station, end_station, inner_stations = [])
     @number = number

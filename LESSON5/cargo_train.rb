@@ -2,8 +2,6 @@ require_relative 'train'
 
 class CargoTrain < Train
 
-  @counter = 0
-
   def initialize(number)
     @type = cargo_train_type
     super(number, @type)
@@ -16,5 +14,4 @@ class CargoTrain < Train
   end
 
 end
-
 

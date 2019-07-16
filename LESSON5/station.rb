@@ -1,4 +1,4 @@
-require_relative 'instance_counter_module'
+require_relative 'instance_counter'
 
 class Station
 
@@ -7,7 +7,6 @@ class Station
   attr_reader :trains, :name
 
   @@all_stations = []
-  @counter = 0
 
   class << self
 
@@ -46,6 +45,5 @@ class Station
   end
 
 end
-
 
 
