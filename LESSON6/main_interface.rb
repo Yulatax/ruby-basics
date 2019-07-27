@@ -235,10 +235,10 @@ class MainInterface
 
   def add_station_to_route
     puts "Enter route number: "
-    route_number = gets.chomp.to_i
+    route_number = gets.chomp
     puts "Enter station name: "
     station_name = gets.chomp.downcase
-    if route_number.zero? || string_invalid?(station_name)
+    if string_invalid?(route_number) || string_invalid?(station_name)
       puts "Incorrect data!"
     else
       adding_station_to_route(route_number, station_name)
@@ -264,10 +264,10 @@ class MainInterface
 
   def delete_station_from_route
     puts "Enter route number: "
-    route_number = gets.chomp.to_i
+    route_number = gets.chomp
     puts "Enter station name: "
     station_name = gets.chomp.downcase
-    if route_number.zero? || string_invalid?(station_name)
+    if string_invalid?(route_number) || string_invalid?(station_name)
       puts "Incorrect data!"
     else
       removing_station_from_route(route_number, station_name)
@@ -291,10 +291,10 @@ class MainInterface
 
   def set_route_to_train
     puts "Enter route number: "
-    route_number = gets.chomp.to_i
+    route_number = gets.chomp
     puts "Enter train number: "
-    train_number = gets.chomp.to_i
-    if route_number.zero? || train_number.zero?
+    train_number = gets.chomp
+    if string_invalid?(route_number) || string_invalid?(train_number)
       puts "Incorrect data!"
     else
       route = find_route(route_number)
@@ -331,10 +331,10 @@ class MainInterface
 
   def add_remove_train_car(action)
     puts "Enter car number: "
-    car_number = gets.chomp.to_i
+    car_number = gets.chomp
     puts "Enter train number: "
-    train_number = gets.chomp.to_i
-    if car_number.zero? || train_number.zero?
+    train_number = gets.chomp
+    if string_invalid?(car_number) || string_invalid?(train_number)
       puts "Incorrect data!"
     else
       if action == "add"
@@ -365,7 +365,7 @@ class MainInterface
       puts "Train or car not exists"
     else
       if train.remove_car(car).nil?
-        puts "There is no shuch car in this train"
+        puts "There is no such car in this train"
       else
         puts "The car was successfully deleted!"
       end
@@ -395,8 +395,8 @@ class MainInterface
 
   def moving(direction)
     puts "Enter train number: "
-    train_number = gets.chomp.to_i
-    if train_number.zero?
+    train_number = gets.chomp
+    if string_invalid?(train_number)
       puts "Incorrect data!"
     else
       train = find_train(train_number)

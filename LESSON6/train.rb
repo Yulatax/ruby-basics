@@ -42,24 +42,12 @@ class Train
   end
 
   def add_car(car, index)
-    if !car_train_same_type?(car) || !train_stopped?
-      puts "Can't add car: train is moving or car and train are not the same type"
-    else
-      if @cars.include?(car)
-        puts "Car already exists"
-      else
-        @cars = @cars.insert(index, car).compact
-        puts "Car was successfully added!"
-      end
-    end
+    @cars = @cars.insert(index, car).compact if can_add_car?(car)
   end
 
   def remove_car(car)
-    if @cars.empty? || !train_stopped?
-      puts "Can't remove car: train is moving or no cars"
-    else
-      @cars.delete(car)
-    end
+    return if @cars.empty? || !train_stopped?
+    @cars.delete(car)
   end
 
   def set_route(route)
@@ -80,25 +68,19 @@ class Train
   end
 
   def move_forward
-    if @route.nil? || @current_station == @route.stations_list.last
-      puts "This is the last station of the route"
-    else
-      @station_index += 1
-      @current_station = @route.stations_list[@station_index]
-      @current_station.receive_train(self)
-      previous_station.send_train(self)
-    end
+    return unless next_station
+    @station_index += 1
+    @current_station = @route.stations_list[@station_index]
+    @current_station.receive_train(self)
+    previous_station.send_train(self)
   end
 
   def move_back
-    if @route.nil? || @current_station == @route.stations_list.first
-      puts "This is the first station of the route"
-    else
-      @station_index -= 1
-      @current_station = @route.stations_list[@station_index]
-      @current_station.receive_train(self)
-      next_station.send_train(self)
-    end
+    return unless previous_station
+    @station_index -= 1
+    @current_station = @route.stations_list[@station_index]
+    @current_station.receive_train(self)
+    next_station.send_train(self)
   end
 
   protected
@@ -126,4 +108,7 @@ class Train
     @speed.zero?
   end
 
+  def can_add_car?(car)
+    train_stopped? && car_train_same_type?(car) && !@cars.include?(car)
+  end
 end
