@@ -1,9 +1,11 @@
 require_relative 'manufacturer_module'
 require_relative 'instance_counter'
+require_relative 'validation_module'
 
 class Train
   include Manufacturer
   include InstanceCounter
+  include ValidationModule
 
   @@all_trains = {}
 
@@ -30,22 +32,13 @@ class Train
     end
   end
 
-  def valid?
-    return true if validate_number! && validate_type!
-  rescue
-    false
-  end
-
   def increase_speed(speed_acceleration)
     @speed += speed_acceleration
   end
 
   def stop
-    if train_stopped?
-      puts "Train is already stopped"
-    else
-      @speed = 0
-    end
+    return if train_stopped?
+    @speed = 0
   end
 
   def add_car(car, index)
@@ -110,9 +103,13 @@ class Train
 
   protected
 
+  def validate!
+    validate_number! && validate_station!
+  end
+
   def validate_number!
     raise "Train number can't be empty" if @number.nil?
-    raise "Train number format doesn't match format" if @number !~ TRAIN_NUMBER_FORMAT
+    raise "Train number doesn't match format" if @number !~ TRAIN_NUMBER_FORMAT
   end
 
   def validate_type!
@@ -130,4 +127,3 @@ class Train
   end
 
 end
-

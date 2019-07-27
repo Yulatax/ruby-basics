@@ -1,7 +1,9 @@
 require_relative 'manufacturer_module'
+require_relative 'validation_module'
 
 class TrainCar
   include Manufacturer
+  include ValidationModule
 
   attr_reader :type, :number
 
@@ -14,13 +16,11 @@ class TrainCar
     validate_type!
   end
 
-  def valid?
-    return true if validate_number! && validate_type!
-  rescue
-    false
-  end
-
   protected
+
+  def validate!
+    validate_number! && validate_station!
+  end
 
   def validate_number!
     raise "Car number can't be empty" if @number.nil?
@@ -31,5 +31,4 @@ class TrainCar
     raise "Type should be 'cargo' or 'pass'" if @type != 'cargo' && @type != 'pass'
   end
 end
-
 

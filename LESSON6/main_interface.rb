@@ -121,47 +121,47 @@ class MainInterface
   end
 
   def create_station
-    puts "Enter station name: "
-    name = gets.chomp.downcase
-    station_creation(name)
+    begin
+      puts "Enter station name: "
+      name = gets.chomp.downcase
+      station_creation(name)
+      puts "Station #{name} created successfully!"
+    rescue RuntimeError => e
+      puts e.message
+      retry
+    end
   end
 
   def station_creation(name)
     if station_exist?(name)
-      puts "Station #{name} is already exist!"
+      raise "Station #{name} is already exist!"
     else
-      begin
-        station = Station.new(name)
-        puts "Station #{station.name} created successfully!"
-      rescue RuntimeError => e
-        puts e.inspect
-      end
+      Station.new(name)
     end
   end
 
   def create_train
-    puts "Enter train number: "
-    train_number = gets.chomp
-    puts "Enter train type: cargo/pass"
-    type = gets.chomp.downcase
-    if type != 'cargo' && type != 'pass'
-      puts "Incorrect type!"
-    else
-      train_creation(train_number, type)
+    begin
+      puts "Enter train number: "
+      train_number = gets.chomp
+      puts "Enter train type: cargo/pass"
+      type = gets.chomp.downcase
+      train = train_creation(train_number, type)
+      @trains << train
+      puts "Train #{train_number} - #{type} created successfully!"
+    rescue RuntimeError => e
+      puts e.message
+      retry
     end
   end
 
   def train_creation(number, type)
-    if train_exist?(number)
-      puts "Train #{number} is already exist!"
+    if type != 'cargo' && type != 'pass'
+      raise "Incorrect type!"
+    elsif train_exist?(number)
+      raise "Train #{number} is already exist!"
     else
-      begin
-        train = init_train(type, number)
-        @trains << train
-        puts "Train #{train.number} - #{train.type} created successfully!"
-      rescue RuntimeError => e
-      puts e.inspect
-      end
+      init_train(type, number)
     end
   end
 
@@ -174,54 +174,54 @@ class MainInterface
   end
 
   def create_route
-    puts "Enter route number: "
-    route_number = gets.chomp
-    puts "Enter the name of the first station in the route: "
-    first_station = gets.chomp.downcase
-    puts "Enter the name of the last station in the route: "
-    last_station = gets.chomp.downcase
-    route_creation(route_number, first_station, last_station)
+    begin
+      puts "Enter route number: "
+      route_number = gets.chomp
+      puts "Enter the name of the first station in the route: "
+      first_station = gets.chomp.downcase
+      puts "Enter the name of the last station in the route: "
+      last_station = gets.chomp.downcase
+      route = route_creation(route_number, first_station, last_station)
+      @routes << route
+      puts "Route #{first_station} - #{last_station} created successfully!"
+    rescue RuntimeError => e
+      puts e.message
+      retry
+    end
   end
 
   def route_creation(number, station1, station2)
     if route_exist?(number)
-      puts "Route #{number} already exists"
+      raise "Route #{number} already exists"
     elsif !station_exist?(station1) || !station_exist?(station2)
-      puts "Check if stations exist!"
+      raise "Check if stations exist!"
     else
-      begin
-        route = Route.new(number, find_station(station1), find_station(station2))
-        @routes << route
-        puts "Route #{station1} - #{station2} created successfully!"
-      rescue RuntimeError => e
-        puts e.inspect
-      end
+      Route.new(number, find_station(station1), find_station(station2))
     end
   end
 
   def create_train_car
-    puts "Enter car number: "
-    car_number = gets.chomp
-    puts "Enter car type: cargo/pass"
-    type = gets.chomp.downcase
-    if type != 'cargo' && type != 'pass'
-      puts "Incorrect type!"
-    else
-      train_car_creation(car_number, type)
+    begin
+      puts "Enter car number: "
+      car_number = gets.chomp
+      puts "Enter car type: cargo/pass"
+      type = gets.chomp.downcase
+      car = train_car_creation(car_number, type)
+      @cars << car
+      puts "Car #{car_number}: #{type} created successfully!"
+    rescue RuntimeError => e
+      puts e.message
+      retry
     end
   end
 
   def train_car_creation(number, type)
-    if car_exist?(number)
-      puts "Car #{number} is already exist!"
+    if type != 'cargo' && type != 'pass'
+      raise "Incorrect type!"
+    elsif car_exist?(number)
+      raise "Car #{number} is already exist!"
     else
-      begin
-        car = init_car(type, number)
-        @cars << car
-        puts "Car #{car.number}: #{car.type} created successfully!"
-      rescue RuntimeError => e
-        puts e.inspect
-      end
+      init_car(type, number)
     end
   end
 

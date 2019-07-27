@@ -1,8 +1,10 @@
 require_relative 'instance_counter'
+require_relative 'validation_module'
 
 class Station
 
   include InstanceCounter
+  include ValidationModule
 
   attr_reader :trains
   attr_accessor :name
@@ -25,13 +27,6 @@ class Station
     @trains = []
     @@all_stations << self
     register_instance
-  end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
   end
 
   def receive_train(train)
@@ -63,6 +58,5 @@ class Station
     raise "Station name includes only latin characters with dashes, apostrophes and spaces" if @name !~ NAME_FORMAT
   end
 end
-
 
 

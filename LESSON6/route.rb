@@ -1,9 +1,11 @@
 require_relative 'instance_counter'
+require_relative 'validation_module'
 require_relative 'station'
 
 class Route
 
   include InstanceCounter
+  include ValidationModule
 
   attr_reader :start_station, :end_station, :inner_stations, :number
 
@@ -17,12 +19,6 @@ class Route
     @inner_stations = inner_stations
     validate_station!
     register_instance
-  end
-
-  def valid?
-    return true if validate_number! && validate_station!
-  rescue
-    false
   end
 
   def add_inner_station(station, index)
@@ -48,6 +44,10 @@ class Route
 
   protected
 
+  def validate!
+    validate_number! && validate_station!
+  end
+
   def validate_number!
     raise "Route number can't be empty" if @number.nil?
     raise "Route number format contains 3 digits only" if @number !~ ROUTE_NUMBER_FORMAT
@@ -59,5 +59,3 @@ class Route
       !@start_station.instance_of?(Station) || !@end_station.instance_of?(Station)
   end
 end
-
-
