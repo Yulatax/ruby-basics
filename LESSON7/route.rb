@@ -23,8 +23,7 @@ class Route
 
   def add_inner_station(station, index)
     return if @inner_stations.include?(station) ||
-        station == @start_station ||
-        station == @end_station
+        first_station?(station) || last_station?(station)
     @inner_stations = @inner_stations.insert(index, station).compact
   end
 
@@ -43,6 +42,14 @@ class Route
   end
 
   protected
+
+  def first_station?(station)
+    station == @start_station
+  end
+
+  def last_station?(station)
+    station == @end_station
+  end
 
   def validate!
     validate_number! && validate_station!

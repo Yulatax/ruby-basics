@@ -438,7 +438,7 @@ class MainInterface
         puts "This station not exists"
       else
         block = Proc.new { |train| puts "Train #{train.number}: #{train.type}, #{train.cars.length} car/s" }
-        station.each_train block
+        station.each_train &block
       end
     end
   end
@@ -499,12 +499,12 @@ class MainInterface
       block = Proc.new do |car|
         puts "Car #{car.number}: #{car.type}, available - #{car.capacity_available}, occupied - #{car.capacity_occupied}"
       end
-      train.each_car block
+      train.each_car &block
     else
       block = Proc.new do |car|
         puts "Car #{car.number}: #{car.type}, available - #{car.free_seats}, occupied - #{car.seats_occupied}"
       end
-      train.each_car block
+      train.each_car &block
     end
   end
 end

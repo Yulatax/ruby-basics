@@ -29,11 +29,9 @@ class Station
     register_instance
   end
 
-  def each_train(block)
+  def each_train
     return if @trains.empty?
-    @trains.each do |train|
-      block.call(train)
-    end
+    @trains.each { |train| yield(train) }
   end
 
   def receive_train(train)

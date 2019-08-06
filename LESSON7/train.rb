@@ -32,11 +32,9 @@ class Train
     end
   end
 
-  def each_car(block)
+  def each_car
     return if @cars.empty?
-    @cars.each do |car|
-      block.call(car)
-    end
+    @cars.each { |car| yield(car) }
   end
 
   def increase_speed(speed_acceleration)
