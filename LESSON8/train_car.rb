@@ -34,6 +34,3 @@ class TrainCar
         @type != 'cargo' && @type != 'pass'
   end
 end
-
-# p car = TrainCar.new(number: '333', type: 'pass')
-# p car.valid?

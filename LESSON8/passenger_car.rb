@@ -29,16 +29,3 @@ class PassengerCar < TrainCar
     'pass'
   end
 end
-
-# p pass_car1 = PassengerCar.new(number: '222', all_seats: 25)
-# def occupy_car(car)
-#   begin
-#     car.take_a_seat
-#     p car.free_seats
-#   rescue RuntimeError => e
-#     puts e.message
-#   end
-# end
-# occupy_car(pass_car1)
-# occupy_car(pass_car1)
-# 25.times { |time| occupy_car(pass_car1) }

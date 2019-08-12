@@ -146,25 +146,3 @@ class Train
   end
 end
 
-# kja = Station.new('KJA')
-# oms = Station.new('OMS')
-# ovb = Station.new('OVB')
-# route1 = Route.new(number: '123', start_station: kja, end_station: oms)
-# route1.add_inner_station(ovb, 0)
-# train1 = Train.new(number: '11111', type: 'pass')
-# car1 = TrainCar.new(number: '111', type: 'pass')
-# car2 = TrainCar.new(number: '222', type: 'pass')
-# train1.add_car(car1)
-# p train1
-# train1.add_car(car2)
-# p train1
-# p train1.cars
-# train1.define_route(route1)
-# p train1.current_station
-# train1.move_forward
-# p train1. current_station
-# train1.move_forward
-# p train1. current_station
-# train1.move_forward
-# p train1.current_station
-# p Train.find('11111')

@@ -29,16 +29,3 @@ class CargoCar < TrainCar
     'cargo'
   end
 end
-
-# p cargo_car1 = CargoCar.new(number: '111', capacity: 1000)
-# def occupy_car(car, volume)
-#   begin
-#     car.take_capacity(volume)
-#     p car.capacity_available
-#   rescue RuntimeError => e
-#     puts e.message
-#   end
-# end
-# occupy_car(cargo_car1, 900)
-# occupy_car(cargo_car1, 100)
-# occupy_car(cargo_car1, 100)
