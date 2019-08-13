@@ -145,4 +145,3 @@ class Train
     previous_station.send_train(self)
   end
 end
-
