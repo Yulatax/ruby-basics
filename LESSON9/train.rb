@@ -2,7 +2,7 @@
 
 require_relative 'manufacturer_module'
 require_relative 'instance_counter'
-require_relative 'validation_module'
+require_relative 'validation'
 require_relative 'train_car'
 require_relative 'route'
 require_relative 'station'
@@ -10,20 +10,15 @@ require_relative 'station'
 class Train
   include Manufacturer
   include InstanceCounter
-  include ValidationModule
 
-  attr_accessor :current_station, :route, :speed
+  attr_accessor :route, :speed, :current_station
   attr_reader :type, :cars, :number
 
   @@all_trains = {}
 
-  TRAIN_NUMBER_FORMAT = /^[a-z0-9]{3}-?[a-z0-9]{2}$/i.freeze
-
   def initialize(args = {})
     @number = args[:number]
-    validate_number!
     @type = args[:type]
-    validate_type!
     @speed = 0
     @cars = []
     @@all_trains[@number] = self
@@ -97,22 +92,6 @@ class Train
     move_train(@station_index)
   end
 
-  protected
-
-  def validate!
-    validate_number! && validate_type!
-  end
-
-  def validate_number!
-    raise "Train number can't be empty" if @number.nil?
-    raise "Train number doesn't match format" if @number !~ TRAIN_NUMBER_FORMAT
-  end
-
-  def validate_type!
-    raise "Type should be 'cargo' or 'pass'" if
-        @type != 'cargo' && @type != 'pass'
-  end
-
   private
 
   def car_train_same_type?(car)
@@ -145,3 +124,4 @@ class Train
     previous_station.send_train(self)
   end
 end
+

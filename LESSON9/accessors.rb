@@ -36,26 +36,3 @@ module Accessors
   end
 
 end
-
-# class Test
-#   extend Accessors
-#   attr_accessor_with_history :attr1, :attr2
-#   strong_attr_accessor :attr3, String
-#   strong_attr_accessor :attr4, Array
-# end
-#
-# t1 = Test.new
-# t1.attr1 = 1
-# t1.attr1 = 5
-# p t1.attr3 = 'Hello'
-# p t1.attr1_history
-# p t1.instance_variables
-#
-# t2 = Test.new
-# t2.attr1 = 11
-# t2.attr2 = 2
-# t2.attr2 = 7
-# p t2.attr1_history
-# p t2.attr2_history
-# p t2.instance_variables
-# p t2.attr4 = %w[h e l l o]

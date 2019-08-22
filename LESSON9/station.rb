@@ -6,7 +6,7 @@ require_relative 'accessors'
 
 class Station
   include InstanceCounter
-  extend Validation
+  include Validation
   extend Accessors
 
   attr_reader :trains
@@ -61,5 +61,5 @@ class Station
       @trains.each { |train| puts "#{train.number} : #{train.type}" }
     end
   end
-
 end
+

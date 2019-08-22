@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
 require_relative 'train_car'
+require_relative 'validation'
 
 class CargoCar < TrainCar
+  include Validation
+
   attr_reader :capacity_occupied
 
+  NUMBER_FORMAT = /^\d{3}$/.freeze
+
+  validate :number, :presence
+  validate :number, :format, format: NUMBER_FORMAT
+
   def initialize(args = {})
-    @type = cargo_car_type
     @number = args[:number]
+    validate!
+    @type = cargo_car_type
     @capacity = args[:capacity] || 0
     @capacity_occupied = 0
     super(number: @number, type: @type)
