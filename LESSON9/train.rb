@@ -82,14 +82,14 @@ class Train
     return unless next_station
 
     @station_index += 1
-    move_train(@station_index)
+    move_train(@station_index, @station_index - 1)
   end
 
   def move_back
     return unless previous_station
 
     @station_index -= 1
-    move_train(@station_index)
+    move_train(@station_index, @station_index + 1)
   end
 
   private
@@ -118,10 +118,10 @@ class Train
     @current_station == @route.stations_list.first
   end
 
-  def move_train(index)
-    @current_station = @route.stations_list[index]
+  def move_train(curr_ind, last_index)
+    @current_station = @route.stations_list[curr_ind]
     @current_station.receive_train(self)
-    previous_station.send_train(self)
+    @route.stations_list[last_index].send_train(self)
   end
 end
 

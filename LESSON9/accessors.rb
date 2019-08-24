@@ -10,15 +10,23 @@ module Accessors
       end
 
       define_method("#{attr}=".to_sym) do |val|
+        current_val = instance_variable_get(attr_name)
+        history = create_history_var(attr_values_var)
+        if current_val
+          history << current_val
+        end
         instance_variable_set(attr_name, val)
-        instance_variable_set(attr_values_var, []) if
-          instance_variable_get(attr_values_var).nil?
-        history = instance_variable_get(attr_values_var)
-        history << val
       end
 
       define_method("#{attr}_history") { instance_variable_get(attr_values_var) }
 
+      private
+
+      define_method('create_history_var') do |history_var|
+        instance_variable_set(history_var, []) if
+            instance_variable_get(history_var).nil?
+        instance_variable_get(history_var)
+      end
     end
   end
 
@@ -34,5 +42,4 @@ module Accessors
       instance_variable_set(attr_name, val)
     end
   end
-
 end
